@@ -21,8 +21,14 @@ config.color_scheme = 'Catppuccin Mocha'
 
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
+
 -- 隐藏操作按钮
--- config.window_decorations = "RESIZE"
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.integrated_title_button_style = "Windows"
+config.integrated_title_buttons = { 'Hide', 'Maximize', 'Close' }
+config.integrated_title_button_alignment = "Right"
+config.integrated_title_button_color = "Auto"
+
 config.show_new_tab_button_in_tab_bar = false
 config.window_background_opacity = 0.9
 config.macos_window_background_blur = 70
@@ -34,6 +40,13 @@ config.window_padding = {
   top = 0,
   bottom = 0
 }
+
+-- 启动最大化窗口
+local mux = wezterm.mux
+wezterm.on("gui-startup", function(cmd)
+  local tab, pane, window = mux.spawn_window(cmd or {})
+  window:gui_window():maximize()
+end)
 
 -- 默认启动使用 WSL
 config.default_domain = 'WSL:Ubuntu'
